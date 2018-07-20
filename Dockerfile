@@ -48,12 +48,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=extract /mapd /mapd
 COPY --from=glvnd /usr/local /usr/local/
 
+RUN mkdir -p /project
+RUN chmod 700 /project/*
+
 RUN mkdir -p /usr/share/glvnd/egl_vendor.d && \
     echo '{ "file_format_version" : "1.0.0", "ICD" : { "library_path" : "libEGL_nvidia.so.0" } }' > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 RUN mkdir -p /usr/local/share/glvnd/egl_vendor.d && \
     echo '{ "file_format_version" : "1.0.0", "ICD" : { "library_path" : "libEGL_nvidia.so.0" } }' > /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json
 
 WORKDIR /mapd
+RUN chmod 700 /mapd/*
 
 EXPOSE 9091 9092
 
